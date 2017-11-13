@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">katana</string>
+    <string name="user_name">user name</string>
+    <string name="email">email</string>
+    <string name="phone">phone</string>
+    <string name="password">password</string>
+    <string name="sign_up">sign up</string>
+    <string name="login">log in</string>
+    <string name="alreadyhaveaccount">Already have an account?</string>
+    <string name="termsnotice">By clicking on sign up, you agree to our</string>
+    <string name="termsandprivacy"><a href="https://www.google.com">Terms of Service</a>  &amp;  <a href="https://www.google.com">Privacy Policy</a></string>
+</resources>
