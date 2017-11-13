@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/fullscreencolor"
     android:fillViewport="true"
-    tools:context="com.katana.ui.SignInActivity">
+    tools:context="com.katana.ui.views.SignInActivity">
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

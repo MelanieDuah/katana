@@ -1,7 +1,9 @@
-package com.katana.ui;
+package com.katana.ui.views;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.katana.ui.R;
 
 public class SignInActivity extends AppCompatActivity {
 
