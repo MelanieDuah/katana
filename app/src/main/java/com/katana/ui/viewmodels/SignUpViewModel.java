@@ -4,6 +4,8 @@ import android.databinding.Bindable;
 
 import com.katana.ui.BR;
 
+import javax.inject.Inject;
+
 /**
  * Created by AOwusu on 11/13/2017.
  */
@@ -13,6 +15,10 @@ public class SignUpViewModel extends BaseViewModel{
     private String email;
     private String phone;
     private String password;
+
+    @Inject
+    public SignUpViewModel() {
+    }
 
     @Bindable
     public String getUserName() {
