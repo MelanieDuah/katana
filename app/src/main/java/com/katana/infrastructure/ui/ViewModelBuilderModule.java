@@ -1,6 +1,5 @@
-package com.katana.infrastructure;
+package com.katana.infrastructure.ui;
 
-import com.katana.ui.viewmodels.BaseViewModel;
 import com.katana.ui.viewmodels.SignUpViewModel;
 
 import dagger.Module;
