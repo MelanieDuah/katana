@@ -11,10 +11,10 @@ import javax.inject.Inject;
  */
 
 public class SignUpViewModel extends BaseViewModel{
-    private String userName;
-    private String email;
-    private String phone;
-    private String password;
+    private String userName = "Akwasi";
+    private String email ="aowusu@gnresound.com";
+    private String phone = "8479040065";
+    private String password ="222222222";
 
     @Inject
     public SignUpViewModel() {

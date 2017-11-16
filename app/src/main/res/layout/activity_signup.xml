@@ -63,6 +63,7 @@
                     android:backgroundTint="@color/colorPrimary"
                     android:drawableLeft="@drawable/ic_person_white_24dp"
                     android:hint="@string/user_name"
+                    android:text="@{viewmodel.userName}"
                     android:textColor="@color/colorPrimary" />
             </android.support.design.widget.TextInputLayout>
 
