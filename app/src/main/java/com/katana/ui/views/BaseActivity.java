@@ -17,22 +17,20 @@ import dagger.android.AndroidInjection;
  * Created by AOwusu on 11/13/2017.
  */
 
-public class BaseActivity<B extends ViewDataBinding, V extends BaseViewModel> extends AppCompatActivity {
+public abstract class BaseActivity<B extends ViewDataBinding, V extends BaseViewModel> extends AppCompatActivity {
 
     protected B binding;
     @Inject
     protected V viewModel;
 
 
+    abstract int getLayoutReSource();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
-    }
-
-    protected final void initializeLayoutAndBinding(int layoutResourceId, Bundle bundle) {
-        binding = DataBindingUtil.setContentView(this,layoutResourceId);
+        binding = DataBindingUtil.setContentView(this, getLayoutReSource());
         binding.setVariable(BR.viewmodel, viewModel);
     }
-
 }

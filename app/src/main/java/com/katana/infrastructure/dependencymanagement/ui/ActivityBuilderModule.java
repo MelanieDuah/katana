@@ -1,4 +1,4 @@
-package com.katana.infrastructure.ui;
+package com.katana.infrastructure.dependencymanagement.ui;
 
 import com.katana.ui.views.SignInActivity;
 import com.katana.ui.views.SignUpActivity;
@@ -12,7 +12,10 @@ import dagger.android.ContributesAndroidInjector;
 
 @Module
 public abstract class ActivityBuilderModule {
+
     @ContributesAndroidInjector
     abstract SignUpActivity signUpActivity();
+
+    @ContributesAndroidInjector
     abstract SignInActivity signInActivity();
 }

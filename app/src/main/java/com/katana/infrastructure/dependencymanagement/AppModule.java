@@ -1,4 +1,4 @@
-package com.katana.infrastructure;
+package com.katana.infrastructure.dependencymanagement;
 
 import android.app.Application;
 import android.content.Context;

@@ -1,7 +1,6 @@
 package com.katana.entities;
 
 import android.support.annotation.NonNull;
-
 import java.util.Date;
 
 /**
@@ -10,14 +9,14 @@ import java.util.Date;
 
 public abstract class BaseEntity implements Comparable<BaseEntity>{
 
-    private  int id;
+    private  String id;
     private Date createDate;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -41,7 +40,7 @@ public abstract class BaseEntity implements Comparable<BaseEntity>{
 
     @Override
     public int hashCode() {
-        return id;
+        return id.hashCode();
     }
 
     @Override

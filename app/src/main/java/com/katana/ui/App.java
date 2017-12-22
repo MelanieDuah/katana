@@ -1,6 +1,6 @@
 package com.katana.ui;
 
-import com.katana.infrastructure.DaggerKatanaAppComponent;
+import com.katana.infrastructure.dependencymanagement.DaggerKatanaAppComponent;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DaggerApplication;
@@ -11,8 +11,19 @@ import dagger.android.DaggerApplication;
 
 public class App extends DaggerApplication {
 
+    AndroidInjector<? extends DaggerApplication> appInjector;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+    }
+
     @Override
     protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
-        return DaggerKatanaAppComponent.builder().create(this);
+
+        if(appInjector == null)
+            appInjector = DaggerKatanaAppComponent.builder().create(this);
+
+        return appInjector;
     }
 }

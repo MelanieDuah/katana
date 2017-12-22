@@ -1,7 +1,11 @@
 package com.katana.ui.viewmodels;
 
 import android.databinding.Bindable;
+import android.util.Log;
 
+import com.katana.business.UserController;
+import com.katana.entities.User;
+import com.katana.infrastructure.exceptions.KatanaBusinessException;
 import com.katana.ui.BR;
 
 import javax.inject.Inject;
@@ -11,13 +15,15 @@ import javax.inject.Inject;
  */
 
 public class SignUpViewModel extends BaseViewModel{
-    private String userName = "Akwasi";
-    private String email ="aowusu@gnresound.com";
-    private String phone = "8479040065";
-    private String password ="222222222";
+    private String userName;
+    private String email;
+    private String phone;
+    private String password;
+    private UserController userController;
 
     @Inject
-    public SignUpViewModel() {
+    public SignUpViewModel(UserController userController) {
+        this.userController = userController;
     }
 
     @Bindable
@@ -60,7 +66,19 @@ public class SignUpViewModel extends BaseViewModel{
         notifyPropertyChanged(BR.password);
     }
 
-    public void OnSignupRequested() {
+    public void onSignupRequested() {
 
+        User user = new User();
+        user.setEmail(email);
+        user.setUserName(userName);
+        user.setPassword(password);
+        user.setPhone(phone);
+
+        try {
+            userController.saveUser(user);
+        }
+        catch (KatanaBusinessException ex){
+            Log.e(ex.getMessage(), ex.getStackTrace()[0].getClassName(), ex);
+        }
     }
 }
