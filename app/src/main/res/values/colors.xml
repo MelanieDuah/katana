@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="appNameColor">#D44859</color>
     <color name="fullscreencolor">#2B2941</color>
+    <color name="katanaDark">#FF000000</color>
+    <color name="katanaTextColor">#818080</color>
 </resources>

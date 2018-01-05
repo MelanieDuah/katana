@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "160462939965",
+    "firebase_url": "https://melkatana-8b9db.firebaseio.com",
+    "project_id": "melkatana-8b9db",
+    "storage_bucket": "melkatana-8b9db.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:160462939965:android:abb65fdc44017161",
+        "android_client_info": {
+          "package_name": "com.katana.ui"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "160462939965-4pcvub48uv9jag3itu97blofmg4vfc3f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTug7_PawszFj5ZMblq5xKtc3vEGBUEJw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

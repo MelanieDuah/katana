@@ -1,20 +1,39 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="android:Theme.Material.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColorHint">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorPrimary</item>
     </style>
     <!--<style name="LaunchScreenTheme" parent="android:Theme.Material.Light.NoActionBar">-->
 
     <!--</style>-->
-    <style name="LaunchScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:textColorHint">@color/colorPrimary</item>
+    <style name="LaunchScreenTheme" parent="AppTheme">
+        <item name="android:background">@drawable/primary_background</item>
+        <item name="android:label">@string/app_name</item>
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
-    <style name="LabelLightTheme" parent="TextAppearance.AppCompat">
-        <item name="android:textColorHint">@color/colorPrimary</item>
+
+    <style name="LabelDarkTheme" parent="TextAppearance.AppCompat">
+        <item name="android:textColorHint">@color/katanaTextColor</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorControlNormal">@color/colorPrimary</item>
-        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="colorControlNormal">@color/katanaDark</item>
+        <item name="colorControlActivated">@color/fullscreencolor</item>
     </style>
+
+    <style name="LabelDarkThemeBold" parent="LabelDarkTheme">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="LabelDarkSingleState">
+        <item name="android:textColor">@color/katanaDark</item>
+    </style>
+
+    <style name="LabelDarkSingleStateBold" parent="LabelDarkSingleState">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="LaunchScreenTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"></style>
+
+    <style name="LaunchScreenTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"></style>
 </resources>

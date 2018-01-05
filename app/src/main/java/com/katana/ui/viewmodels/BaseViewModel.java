@@ -2,10 +2,25 @@ package com.katana.ui.viewmodels;
 
 import android.databinding.BaseObservable;
 
-/**
- * Created by AOwusu on 11/13/2017.
- */
+import com.katana.ui.support.KatanaAction;
 
-public class BaseViewModel extends BaseObservable {
+public abstract class BaseViewModel extends BaseObservable {
+  private KatanaAction activityAction;
+
+    public BaseViewModel() {
+    }
+
+    public KatanaAction getActivityAction() {
+        return activityAction;
+    }
+
+    public void setActivityAction(KatanaAction activityAction) {
+        this.activityAction = activityAction;
+    }
+
+    protected void getContext(){
+
+    }
+    public void Initialize(){}
 
 }

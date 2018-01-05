@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/inventory"
+            android:icon="@drawable/ic_hanger"
+            android:title="@string/melanie_inventory" />
+        <item
+            android:id="@+id/product_categories"
+            android:icon="@drawable/ic_category_black_24dp"
+            android:title="@string/categories" />
+        <item
+            android:id="@+id/add_product"
+            android:icon="@drawable/ic_cotton_polo_shirt"
+            android:title="@string/add_product" />
+        <item
+            android:id="@+id/sale"
+            android:icon="@drawable/ic_sale"
+            android:title="@string/sales" />
+    </group>
+
+    <item android:title="@string/system">
+        <menu>
+            <item
+                android:id="@+id/settings"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="@string/Settings" />
+        </menu>
+    </item>
+
+</menu>

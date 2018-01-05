@@ -8,5 +8,5 @@ import com.katana.infrastructure.exceptions.KatanaBusinessException;
  */
 
 public interface UserController {
-    void saveUser(User user) throws KatanaBusinessException;
+    User getCurrentUser();
 }
