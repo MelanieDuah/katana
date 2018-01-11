@@ -6,7 +6,7 @@
 
         <variable
             name="viewmodel"
-            type="com.katana.ui.viewmodels.ProductCategoryViewModel" />
+            type="com.katana.ui.viewmodels.CategoryViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout

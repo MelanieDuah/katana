@@ -5,9 +5,9 @@ import android.os.Bundle;
 
 import com.katana.ui.R;
 import com.katana.ui.databinding.FragmentProductCategoryBinding;
-import com.katana.ui.viewmodels.ProductCategoryViewModel;
+import com.katana.ui.viewmodels.CategoryViewModel;
 
-public class ProductCategoryFragment extends BaseFragment<FragmentProductCategoryBinding, ProductCategoryViewModel> {
+public class ProductCategoryFragment extends BaseFragment<FragmentProductCategoryBinding, CategoryViewModel> {
 
     private OnFragmentInteractionListener mListener;
 
@@ -26,8 +26,8 @@ public class ProductCategoryFragment extends BaseFragment<FragmentProductCategor
     }
 
     @Override
-    protected ProductCategoryViewModel getViewModel() {
-        return new ProductCategoryViewModel();
+    protected CategoryViewModel getViewModel() {
+        return new CategoryViewModel();
     }
 
     @Override

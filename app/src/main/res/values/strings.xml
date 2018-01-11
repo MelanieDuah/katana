@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">katana</string>
     <string name="email">email</string>
+    <string name="sell">Sell</string>
     <string name="sign_up">sign up</string>
     <string name="alreadyhaveaccount">Already have an account?</string>
     <string name="noaccount">No account?</string>
@@ -25,8 +26,8 @@
     <string name="productsDesc">View or add categories and products</string>
     <string name="productAddSuccessful">Product successfully added!</string>
     <string name="productAddFailed">Sorry. Could not add the product</string>
-    <string name="sales">Sales</string>
-    <string name="salesDesc">Record sales</string>
+    <string name="saleItems">Sales</string>
+    <string name="salesDesc">Record saleItems</string>
     <string name="customersDesc">View or add customer information</string>
     <string name="customers">Customers</string>
     <string name="reports">Reports</string>
@@ -70,7 +71,7 @@
     <string name="scanBarcode">scan</string>
     <string name="salesSuccess">Sales successfully recorded!</string>
     <string name="phoneNumber">Phone number:</string>
-    <string name="salesFailed">Sorry, could not save sales. Please try again</string>
+    <string name="salesFailed">Sorry, could not save saleItems. Please try again</string>
     <string name="phoneHint">+1 111 111 1111</string>
     <string name="customerNameHint">Countee Cullen</string>
     <string name="nameWithColon">Name:</string>
@@ -105,8 +106,8 @@
     <string name="pickDate">Pick a date</string>
     <string name="startDateError">The start date must be a date equal to or before the end date</string>
     <string name="endDateError">The end date must be a date equal to or after the start date</string>
-    <string name="title_activity_view_sales">View sales</string>
-    <string name="title_activity_monthly_sales_report">Monthly sales report</string>
+    <string name="title_activity_view_sales">View saleItems</string>
+    <string name="title_activity_monthly_sales_report">Monthly saleItems report</string>
     <string name="title_activity_select_printer">Select printer</string>
     <string name="month">Month</string>
     <string name="totalSold">Total sold</string>
@@ -154,14 +155,14 @@
     <string name="value">Value</string>
     <string name="costsSavedSuccessfully">Costs saved successfully!</string>
     <string name="saveCostsfailed">save costs failed</string>
-    <string name="increase">+</string>
-    <string name="decrease">-</string>
+    <string name="increase">increase</string>
+    <string name="decrease">decrease</string>
     <string name="editSaleQty">Change quantity</string>
     <string name="delete">Delete</string>
-    <string name="dailySales">Daily sales</string>
-    <string name="monthlySales">Monthly sales</string>
-    <string name="dailySalesDescription">View daily sales</string>
-    <string name="monthlySalesDescription">View monthly sales</string>
+    <string name="dailySales">Daily saleItems</string>
+    <string name="monthlySales">Monthly saleItems</string>
+    <string name="dailySalesDescription">View daily saleItems</string>
+    <string name="monthlySalesDescription">View monthly saleItems</string>
     <string name="day">Day</string>
     <string name="bar">Bar</string>
     <string name="line">Line</string>
@@ -178,4 +179,5 @@
     <string name="quantity">quantity</string>
     <string name="price">price</string>
     <string name="system">System</string>
+    <string name="emptyBagMessage">Shopping bag is empty. Press scan to add items</string>
 </resources>

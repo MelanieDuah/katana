@@ -38,7 +38,7 @@
         <activity
             android:name=".views.ScanBarcodeActivity"
             android:label="@string/title_activity_scan_barcode"
-            android:theme="@android:style/Theme.Dialog" >
+            android:theme="@style/BarcodeScannerDialog" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.katana.ui.views.MainActivity" />

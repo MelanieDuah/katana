@@ -18,7 +18,7 @@ import java.util.List;
  * Created by AOwusu on 12/28/2017.
  */
 
-public class ProductEntryControllerImpl implements ProductEntryController{
+public class ProductEntryControllerImpl implements ProductEntryController {
 
     private DataAccess dataAccess;
 
@@ -30,13 +30,12 @@ public class ProductEntryControllerImpl implements ProductEntryController{
     public OperationResult addCategory(String categoryName, OperationCallBack<Category> operationCallBack) throws KatanaBusinessException {
 
         OperationResult result = OperationResult.FAILED;
-        try{
+        try {
             Category category = new Category(categoryName);
             dataAccess.addDataItem(category, operationCallBack);
             result = OperationResult.SUCCESSFUL;
-        }
-        catch (KatanaDataException ex){
-            throw new KatanaBusinessException("failed to add new product category",ex);
+        } catch (KatanaDataException ex) {
+            throw new KatanaBusinessException("failed to add new product category", ex);
         }
         return result;
     }
@@ -61,15 +60,14 @@ public class ProductEntryControllerImpl implements ProductEntryController{
     }
 
     @Override
-    public OperationResult addProduct(String productName, int quantity, double price, Category category, String barcode,OperationCallBack<Product> operationCallBack) throws KatanaBusinessException {
+    public OperationResult addProduct(String productName, int quantity, double price, Category category, String barcode, OperationCallBack<Product> operationCallBack) throws KatanaBusinessException {
         OperationResult result = OperationResult.FAILED;
 
         try {
-            Product product = new Product(productName,quantity,price,category,barcode);
+            Product product = new Product(productName, quantity, price, category, barcode);
             dataAccess.addDataItem(product, operationCallBack);
             result = OperationResult.SUCCESSFUL;
-        }
-        catch (KatanaDataException ex){
+        } catch (KatanaDataException ex) {
 
         }
         return result;
@@ -77,51 +75,84 @@ public class ProductEntryControllerImpl implements ProductEntryController{
 
     @Override
     public OperationResult removeProduct(int productId) throws KatanaBusinessException {
-        return null;
+        OperationResult result = OperationResult.FAILED;
+        return result;
     }
 
     @Override
     public OperationResult findAllProducts(OperationCallBack<Product> operationCallBack) throws KatanaBusinessException {
-        return null;
+        OperationResult result = OperationResult.FAILED;
+        return result;
     }
 
     @Override
-    public Product findProduct(int productId, OperationCallBack<Product> operationCallBack) throws KatanaBusinessException {
-        return null;
+    public OperationResult findProduct(int productId, OperationCallBack<Product> operationCallBack) throws KatanaBusinessException {
+        OperationResult result = OperationResult.FAILED;
+        return result;
     }
 
     @Override
-    public Product findProductByBarcode(String barcodDigits, OperationCallBack<Product> operationCallBack) throws KatanaBusinessException {
-        return null;
+    public OperationResult findProductByBarcode(String barcode, OperationCallBack<Product> operationCallBack) throws KatanaBusinessException {
+        OperationResult result;
+        try {
+            result = dataAccess.findItem(Product.class, "barcode", barcode, new OperationCallBack<Product>() {
+                @Override
+                public void onOperationSuccessful(Product product) {
+                    try {
+                        if (product == null)
+                            operationCallBack.onOperationSuccessful(null);
+                        else
+                            dataAccess.findItemByKey(Category.class, product.getCategoryId(), new OperationCallBack<Category>() {
+                                @Override
+                                public void onOperationSuccessful(Category result) {
+                                    product.setCategoryName(result.getCategoryName());
+                                    operationCallBack.onOperationSuccessful(product);
+                                }
+                            });
+                    } catch (KatanaDataException e) {
+                        onOperationFailed(e);
+                    }
+                }
+            });
+        } catch (KatanaDataException ex) {
+            throw new KatanaBusinessException("Error attempting to find product by barcode", ex);
+        }
+        return result;
     }
 
     @Override
-    public Product findProduct(String productName, OperationCallBack<Product> operationCallBack) throws KatanaBusinessException {
-        return null;
+    public OperationResult findProduct(String productName, OperationCallBack<Product> operationCallBack) throws KatanaBusinessException {
+        OperationResult result = OperationResult.FAILED;
+        return result;
     }
 
     @Override
     public OperationResult updateProduct(Product product) throws KatanaBusinessException {
-        return null;
+        OperationResult result = OperationResult.FAILED;
+        return result;
     }
 
     @Override
-    public void getLastInsertedProductId(OperationCallBack<Integer> operationCallBack) throws KatanaBusinessException {
-
+    public OperationResult getLastInsertedProductId(OperationCallBack<Integer> operationCallBack) throws KatanaBusinessException {
+        OperationResult result = OperationResult.FAILED;
+        return result;
     }
 
     @Override
     public OperationResult saveCostEntries(List<CostEntry> costEntries) throws KatanaBusinessException {
-        return null;
+        OperationResult result = OperationResult.FAILED;
+        return result;
     }
 
     @Override
-    public List<CostEntry> getAllCostEntries(OperationCallBack<CostEntry> operationCallBack) throws KatanaBusinessException {
-        return null;
+    public OperationResult getAllCostEntries(OperationCallBack<CostEntry> operationCallBack) throws KatanaBusinessException {
+        OperationResult result = OperationResult.FAILED;
+        return result;
     }
 
     @Override
-    public List<CostItem> getAllCostItems(OperationCallBack<CostItem> operationCallBack) throws KatanaBusinessException {
-        return null;
+    public OperationResult getAllCostItems(OperationCallBack<CostItem> operationCallBack) throws KatanaBusinessException {
+        OperationResult result = OperationResult.FAILED;
+        return result;
     }
 }

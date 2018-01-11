@@ -40,29 +40,29 @@ public interface ProductEntryController {
             OperationCallBack<Product> operationCallBack)
             throws KatanaBusinessException;
 
-    Product findProduct(int productId,
+    OperationResult findProduct(int productId,
                         OperationCallBack<Product> operationCallBack)
             throws KatanaBusinessException;
 
-    Product findProductByBarcode(String barcodDigits,
+    OperationResult findProductByBarcode(String barcodDigits,
                                  OperationCallBack<Product> operationCallBack)
             throws KatanaBusinessException;
 
-    Product findProduct(String productName,
+    OperationResult findProduct(String productName,
                         OperationCallBack<Product> operationCallBack)
             throws KatanaBusinessException;
 
     OperationResult updateProduct(Product product) throws KatanaBusinessException;
 
-    void getLastInsertedProductId(OperationCallBack<Integer> operationCallBack) throws KatanaBusinessException;
+    OperationResult getLastInsertedProductId(OperationCallBack<Integer> operationCallBack) throws KatanaBusinessException;
 
     OperationResult saveCostEntries(List<CostEntry> costEntries) throws KatanaBusinessException;
 
-    List<CostEntry> getAllCostEntries(
+    OperationResult getAllCostEntries(
             OperationCallBack<CostEntry> operationCallBack)
             throws KatanaBusinessException;
 
-    List<CostItem> getAllCostItems(
+    OperationResult getAllCostItems(
             OperationCallBack<CostItem> operationCallBack)
             throws KatanaBusinessException;
 }

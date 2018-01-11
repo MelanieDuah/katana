@@ -1,4 +1,7 @@
 package com.katana.entities;
+
+import com.google.firebase.database.Exclude;
+
 /**
  * The Product entity
  *
@@ -20,6 +23,8 @@ public class Product extends BaseEntity {
     private String imagePath;
 
     private String categoryId;
+
+    private String categoryName;
 
     public Product() {
         super();
@@ -81,6 +86,15 @@ public class Product extends BaseEntity {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    @Exclude
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     @Override

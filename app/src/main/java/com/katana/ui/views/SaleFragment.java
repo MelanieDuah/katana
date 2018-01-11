@@ -1,25 +1,26 @@
 package com.katana.ui.views;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.katana.ui.R;
+import com.katana.ui.databinding.FragmentSaleBinding;
+import com.katana.ui.viewmodels.SaleViewModel;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static com.katana.ui.support.Constants.*;
+import static android.app.Activity.RESULT_OK;
+import static com.katana.ui.support.Constants.BARCODES;
+import static com.katana.ui.support.Constants.SCAN_REQUEST_CODE;
 
-public class SaleFragment extends Fragment {
+public class SaleFragment extends BaseFragment<FragmentSaleBinding, SaleViewModel> {
 
-    private OnFragmentInteractionListener mListener;
     private ScheduledExecutorService executorService;
 
     public SaleFragment() {
@@ -31,23 +32,32 @@ public class SaleFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        launchBarcodeScanner();
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sale, container, false);
+    protected int getLayoutReSource() {
+        return R.layout.fragment_sale;
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+    protected SaleViewModel getViewModel() {
+        return new SaleViewModel();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+
+        //launchBarcodeScanner();
+        View fragmentView = super.onCreateView(inflater, container, savedInstanceState);
+
+        Button scanButton = (Button)fragmentView.findViewById(R.id.scanBarcodeButton);
+        scanButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchBarcodeScanner();
+            }
+        });
+
+        return fragmentView;
     }
 
     public void launchBarcodeScanner() {
@@ -66,9 +76,15 @@ public class SaleFragment extends Fragment {
             }, 100, TimeUnit.MILLISECONDS);
         }
     }
+
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case SCAN_REQUEST_CODE:
+                    viewModel.receiveDataFromView(BARCODES, data.getExtras().getSerializable(BARCODES));
+            }
+        }
     }
 }

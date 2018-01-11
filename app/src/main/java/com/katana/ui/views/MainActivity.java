@@ -1,7 +1,5 @@
 package com.katana.ui.views;
 
-import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -15,13 +13,7 @@ import android.view.MenuItem;
 
 import com.katana.ui.R;
 import com.katana.ui.databinding.ActivityMainBinding;
-import com.katana.ui.support.KatanaAction;
-import com.katana.ui.support.Utils;
 import com.katana.ui.viewmodels.MainActivityViewModel;
-
-import java.util.Map;
-
-import static com.katana.ui.support.Constants.*;
 
 
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivityViewModel>
@@ -117,22 +109,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
                 fragment = new SaleFragment();
         }
         return fragment;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == Utils.Constants.PRINTER_SELECT_REQUEST_CODE) {
-
-            Bundle bundle = data.getExtras();
-
-            Map<String, String> printerInfo = (Map<String, String>) bundle.get(PRINTER_INFO);
-
-            if (printerInfo != null) {
-                ((KatanaAction)fragment).Invoke(PRINTER_DISCOVERED, bundle);
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
-            }
-        }
     }
 
     @Override

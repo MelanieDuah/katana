@@ -1,5 +1,6 @@
 package com.katana.ui.views;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
@@ -9,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.katana.ui.BR;
-import com.katana.ui.support.KatanaAction;
 import com.katana.ui.viewmodels.BaseViewModel;
 
 
@@ -21,7 +21,7 @@ public abstract class BaseFragment<B extends ViewDataBinding, V extends BaseView
 
     protected B binding;
     protected V viewModel;
-
+    private OnFragmentInteractionListener onFragmentInteractionListener;
 
     protected abstract int getLayoutReSource();
     protected abstract V getViewModel();
@@ -32,25 +32,31 @@ public abstract class BaseFragment<B extends ViewDataBinding, V extends BaseView
         viewModel = getViewModel();
         binding = DataBindingUtil.inflate(inflater,getLayoutReSource(),container,false);
         binding.setVariable(BR.viewmodel, viewModel);
-        viewModel.setActivityAction(new KatanaAction() {
-            @Override
-            public void Invoke(String param, Bundle bundle) {
-                OnActionInvoked(param, bundle);
-            }
 
-            @Override
-            public <T> T Invoke(String param) {
-                return getData(param);
-            }
-        });
-        viewModel.Initialize();
+        viewModel.setActivityAction(this::OnActionInvoked);
+
+        viewModel.initialize();
         return binding.getRoot();
     }
 
     protected void OnActionInvoked(String x, Bundle bundle) {
     }
 
-    protected <T> T getData(String param){
-        return null;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            onFragmentInteractionListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        onFragmentInteractionListener = null;
     }
 }

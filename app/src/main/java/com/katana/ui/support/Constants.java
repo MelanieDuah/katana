@@ -14,4 +14,12 @@ public final class Constants {
     public static final String GET_CONTEXT = "getcontext";
     public static final String EMPTY ="";
     public static final int SCAN_REQUEST_CODE = 28;
+    public static final String BARCODES = "Barcodes";
+    public static final String BARCODE = "Barcode";
+    public static final String PRINT_REQUEST ="PrintRequested";
+    public static final String QUANTITY = "Quantity";
+    public static final String INCREASE = "increase";
+    public static final String DECREASE ="decrease";
+    public static final String BUTTON_MODES = "button modes";
+    public static final String BUTTON_METHODS = "button methods";
 }

@@ -8,5 +8,4 @@ import android.os.Bundle;
 
 public interface KatanaAction {
      void Invoke(String param, Bundle bundle);
-     <T> T Invoke(String param);
 }

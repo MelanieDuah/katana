@@ -5,8 +5,6 @@ import com.katana.infrastructure.exceptions.KatanaDataException;
 import com.katana.infrastructure.support.OperationCallBack;
 import com.katana.infrastructure.support.OperationResult;
 
-import java.util.List;
-
 /**
  * Created by Akwasi Owusu on 11/16/17.
  */
@@ -14,4 +12,6 @@ import java.util.List;
 public interface DataAccess {
     <T extends BaseEntity> OperationResult addDataItem(T dataItem, OperationCallBack<T> operationCallBack) throws KatanaDataException;
     <T extends BaseEntity> OperationResult findAllItems(Class<T> itemClass, OperationCallBack<T> operationCallBack) throws KatanaDataException;
+    <T extends BaseEntity> OperationResult findItem(Class<T> itemClass, String fieldName, String fieldValue, OperationCallBack<T> operationCallBack) throws KatanaDataException;
+    <T extends BaseEntity> OperationResult findItemByKey(Class<T> itemClass, String key, OperationCallBack<T> operationCallBack) throws KatanaDataException;
 }

@@ -31,7 +31,7 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding, SplashVi
     }
 
     @Override
-    protected void OnActionInvoked(String param, Bundle bundle) {
+    protected void OnActivityActionInvoked(String param, Bundle bundle) {
         switch (param) {
             case SIGN_IN_REQUEST:
                 requestSignIn();

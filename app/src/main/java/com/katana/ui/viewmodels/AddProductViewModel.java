@@ -1,6 +1,5 @@
 package com.katana.ui.viewmodels;
 
-import android.content.Context;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
 import android.os.Bundle;
@@ -12,14 +11,15 @@ import com.katana.entities.Product;
 import com.katana.infrastructure.KatanaFactory;
 import com.katana.infrastructure.exceptions.KatanaBusinessException;
 import com.katana.infrastructure.support.OperationCallBack;
-import com.katana.ui.R;
 import com.katana.ui.support.BarcodePrintHelper;
 import com.katana.ui.support.Utils;
 
-import static com.katana.ui.support.Constants.*;
-
 import java.util.List;
-import java.util.Map;
+
+import static com.katana.ui.support.Constants.BARCODE;
+import static com.katana.ui.support.Constants.EMPTY;
+import static com.katana.ui.support.Constants.PRINT_REQUEST;
+import static com.katana.ui.support.Constants.QUANTITY;
 
 /**
  * Created by AOwusu on 12/25/2017.
@@ -91,8 +91,8 @@ public class AddProductViewModel extends BaseViewModel {
     }
 
     @Override
-    public void Initialize() {
-        super.Initialize();
+    public void initialize() {
+        super.initialize();
         try {
             productController.getAllCategories(new OperationCallBack<Category>() {
                 @Override
@@ -136,10 +136,9 @@ public class AddProductViewModel extends BaseViewModel {
     }
 
     private void printBarcode(String barcode) {
-
-        barcodePrintHelper = new BarcodePrintHelper(getActivityAction().Invoke(GET_CONTEXT), false);
-        if (barcodePrintHelper != null) {
-            barcodePrintHelper.printBarcode(barcode, quantity, null);
-        }
+        Bundle bundle = new Bundle();
+        bundle.putString(BARCODE, barcode);
+        bundle.putInt(QUANTITY, quantity);
+        getActivityAction().Invoke(PRINT_REQUEST, bundle);
     }
 }

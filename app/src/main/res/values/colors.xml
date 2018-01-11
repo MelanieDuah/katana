@@ -7,4 +7,8 @@
     <color name="fullscreencolor">#2B2941</color>
     <color name="katanaDark">#FF000000</color>
     <color name="katanaTextColor">#818080</color>
+    <color name="scannerRed">#f00</color>
+    <color name="scannerGreen">#0f0</color>
+    <color name="katanaCardBackground">#ece9e9</color>
+    <color name="katanaFadedDark">#cfd8dc</color>
 </resources>

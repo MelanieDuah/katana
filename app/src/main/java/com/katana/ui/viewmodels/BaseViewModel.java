@@ -18,9 +18,7 @@ public abstract class BaseViewModel extends BaseObservable {
         this.activityAction = activityAction;
     }
 
-    protected void getContext(){
-
-    }
-    public void Initialize(){}
-
+    protected void getContext(){}
+    public void initialize(){}
+    public <T> void receiveDataFromView(String key, T data){}
 }

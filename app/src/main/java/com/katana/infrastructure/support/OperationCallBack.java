@@ -1,5 +1,7 @@
 package com.katana.infrastructure.support;
 
+import android.util.Log;
+
 import java.util.List;
 
 public class OperationCallBack<T> {
@@ -12,6 +14,6 @@ public class OperationCallBack<T> {
 
     public void onOperationFailed(Throwable e) {
 
-        e.printStackTrace(); //TODO log it
+        Log.e("OperationCallBack", e.getMessage(),e);
     }
 }

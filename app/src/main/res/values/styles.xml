@@ -1,5 +1,8 @@
 <resources>
 
+    <style name="BarcodeScannerDialog" parent="Theme.AppCompat.Dialog">
+        <item name="windowNoTitle">true</item>
+    </style>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColorHint">@color/colorPrimary</item>
@@ -27,6 +30,14 @@
 
     <style name="LabelDarkSingleState">
         <item name="android:textColor">@color/katanaDark</item>
+    </style>
+
+    <style name="LabelLessDarkSingleState">
+        <item name="android:textColor">@color/katanaTextColor</item>
+    </style>
+
+    <style name="borderlessButtonStyle" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">@color/katanaTextColor</item>
     </style>
 
     <style name="LabelDarkSingleStateBold" parent="LabelDarkSingleState">

@@ -1,9 +1,12 @@
 package com.katana.infrastructure;
 
+import com.katana.business.CustomersController;
 import com.katana.business.ProductEntryController;
+import com.katana.business.SalesController;
 import com.katana.business.UserController;
 import com.katana.business.concrete.FirebaseUserController;
 import com.katana.business.concrete.ProductEntryControllerImpl;
+import com.katana.business.concrete.SalesControllerImpl;
 import com.katana.dataaccess.DataAccess;
 import com.katana.dataaccess.concrete.FirebaseDataAccess;
 
@@ -22,5 +25,13 @@ public class KatanaFactory {
 
     public static ProductEntryController getProductController(){
         return new ProductEntryControllerImpl();
+    }
+
+    public static CustomersController getCustomersController() {
+        return null;
+    }
+
+    public static SalesController getSalesController(){
+        return new SalesControllerImpl();
     }
 }

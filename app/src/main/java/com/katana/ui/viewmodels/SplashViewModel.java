@@ -20,8 +20,8 @@ public class SplashViewModel extends BaseViewModel {
     }
 
     @Override
-    public void Initialize() {
-        super.Initialize();
+    public void initialize() {
+        super.initialize();
         if(userController.getCurrentUser() == null)
             getActivityAction().Invoke(SIGN_IN_REQUEST, null);
         else
