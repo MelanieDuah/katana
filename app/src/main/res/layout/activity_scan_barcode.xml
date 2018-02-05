@@ -8,7 +8,7 @@
              android:clipChildren="true"
              android:orientation="vertical"
              android:padding="2dp"
-             tools:context="com.katana.ui.views.ScanBarcodeActivity">
+             tools:context="com.katana.ui.views.activities.ScanBarcodeActivity">
 
     <SurfaceView
         android:id="@+id/camera_view"

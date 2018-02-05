@@ -1,0 +1,50 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.support.v7.widget.helper.ItemTouchHelper"/>
+
+        <variable
+            name="viewmodel"
+            type="com.katana.ui.viewmodels.CustomersViewModel"/>
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/activity_default_padding"
+        tools:context="com.katana.ui.views.fragments.CustomersFragment">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/customersList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:customeritems="@{viewmodel.customers}"
+            app:onItemSelected="@{viewmodel::onCustomerSelected}"
+            app:swipedirection="@{ItemTouchHelper.LEFT}"/>
+
+        <include
+            android:id="@+id/emptylistview"
+            layout="@layout/layout_list_empty_view"
+            android:visibility="gone"
+            app:viewmodel="@{viewmodel}"
+            />
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_add"
+            app:layout_anchor="@id/customersList"
+            app:layout_anchorGravity="bottom|right|end"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:onClick="@{() -> viewmodel.requestAddNewCustomer()}"
+            />
+    </android.support.constraint.ConstraintLayout>
+</layout>
+
+

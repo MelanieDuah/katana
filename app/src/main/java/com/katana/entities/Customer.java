@@ -12,7 +12,7 @@ public class Customer extends BaseEntity {
 
     private String name;
 
-    private String phoneNumber;
+    private String phone;
 
     private double amountOwed;
 
@@ -21,7 +21,7 @@ public class Customer extends BaseEntity {
 
     public Customer(String name, String phoneNumber) {
         this.name = name;
-        this.phoneNumber = phoneNumber;
+        this.phone = phoneNumber;
     }
 
     public String getName() {
@@ -32,12 +32,12 @@ public class Customer extends BaseEntity {
         this.name = name;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public double getAmountOwed() {
@@ -62,7 +62,7 @@ public class Customer extends BaseEntity {
         } else if (another != null && another instanceof Customer) {
             Customer anotherCustomer = (Customer) another;
             equal = anotherCustomer.name.equals(name)
-                    && anotherCustomer.phoneNumber.equals(phoneNumber);
+                    && anotherCustomer.phone.equals(phone);
         }
 
         return equal;
@@ -70,7 +70,7 @@ public class Customer extends BaseEntity {
 
     @Override
     public int hashCode() {
-        return name.hashCode() * phoneNumber.hashCode();
+        return name.hashCode() * phone.hashCode();
     }
 
 }

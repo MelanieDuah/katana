@@ -2,35 +2,37 @@ package com.katana.ui.viewmodels;
 
 import android.databinding.Bindable;
 
+import com.katana.entities.Product;
+import com.katana.entities.Sale;
 import com.katana.ui.BR;
 
 import static com.katana.ui.support.Constants.INCREASE;
 
 /**
- * Created by Akwasi Owusu on 1/8/18.
+ * Created by Akwasi Owusu on 1/8/18
  */
 
-public class SaleItemViewModel extends BaseViewModel {
+public class SaleItemViewModel extends BaseListItemViewModel {
 
     private String productName = "John";
     private String categoryName;
     private int quantity;
     private double price;
+    private Sale sale;
+    private int quantityRemaining;
 
-    public SaleItemViewModel() {
+    SaleItemViewModel(Sale sale) {
         super();
-        this.productName = "John Foster";
-        this.categoryName = "shoes";
-        this.quantity = 3;
-        this.price = 20D;
-    }
 
-    public SaleItemViewModel(String productName, String categoryName, int quantity, double price) {
-        super();
-        this.productName = productName;
-        this.categoryName = categoryName;
-        this.quantity = quantity;
-        this.price = price;
+        Product product = sale.getProduct();
+        assert product != null;
+
+        this.productName = product.getProductName();
+        this.categoryName = product.getCategoryName();
+        this.quantity = sale.getQuantitySold();
+        this.price = product.getPrice();
+        this.sale = sale;
+        this.quantityRemaining = product.getQuantity();
     }
 
     @Bindable
@@ -65,6 +67,11 @@ public class SaleItemViewModel extends BaseViewModel {
     }
 
     @Bindable
+    public int getQuantityRemaining() {
+        return quantityRemaining;
+    }
+
+    @Bindable
     public double getPrice() {
         return price;
     }
@@ -79,9 +86,14 @@ public class SaleItemViewModel extends BaseViewModel {
         return price * quantity;
     }
 
+    public Sale getSale() {
+        return sale;
+    }
+
     public void changeQuantity(String changeType) {
         if (changeType.equals(INCREASE)) {
-             setQuantity(quantity + 1);
+            if (quantity + 1 <= sale.getProduct().getQuantity())
+                setQuantity(quantity + 1);
         } else {
             if (quantity > 0)
                 setQuantity(quantity - 1);

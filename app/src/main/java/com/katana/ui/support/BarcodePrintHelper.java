@@ -2,9 +2,7 @@ package com.katana.ui.support;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.os.AsyncTask;
-import android.os.Handler;
 import android.util.SparseIntArray;
 
 import com.epson.lwprint.sdk.LWPrint;
@@ -15,24 +13,21 @@ import com.epson.lwprint.sdk.LWPrintTapeCut;
 import com.katana.infrastructure.support.OperationCallBack;
 import com.katana.ui.R;
 
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
 
 public class BarcodePrintHelper {
 
-    private static final int CUT_EACH_TAPE = 0;
-    private static final int DENSITY = -2;
+    private static final int DENSITY = 0;
     private Context context;
     private Map<String, String> printerInfo;
     private LWPrint printer;
     private boolean isPrinterFound = false;
     private ProgressDialog progressDialog = null;
-    private Handler handler;
     private ScheduledExecutorService executorService;
     private int printPhaseMessage;
-    private MelaniePrinterDiscoverer printerDiscoverer;
+    private PrinterDiscoverer printerDiscoverer;
     private int numberOfBarcodes;
     private boolean isInitialized;
     private String barcode;
@@ -43,13 +38,12 @@ public class BarcodePrintHelper {
         if (!bluetoothEnabledRefused) {
             this.context = context;
             initializePrinter();
-            handler = new Handler(context.getMainLooper());
         }
     }
 
     private void initializePrinter() {
 
-        printerDiscoverer = new MelaniePrinterDiscoverer(context, new OperationCallBack<Map<String, String>>() {
+        printerDiscoverer = new PrinterDiscoverer(context, new OperationCallBack<Map<String, String>>() {
 
             @Override
             public void onOperationSuccessful(Map<String, String> result) {
@@ -70,26 +64,28 @@ public class BarcodePrintHelper {
         HashMap<String, Object> printSettings = new HashMap<>();
 
         printSettings.put(LWPrintParameterKey.Copies, 1);
-        printSettings.put(LWPrintParameterKey.HalfCut, true);
-        printSettings.put(LWPrintParameterKey.TapeCut, LWPrintTapeCut.AfterJob);
+        printSettings.put(LWPrintParameterKey.HalfCut, false);
+        printSettings.put(LWPrintParameterKey.TapeCut, LWPrintTapeCut.EachLabel);
         printSettings.put(LWPrintParameterKey.PrintSpeed, true);
         printSettings.put(LWPrintParameterKey.Density, DENSITY);
-        printSettings.put(LWPrintParameterKey.TapeWidth, 6);
 
         return printSettings;
     }
 
     private void performPrint(String barcode) {
-        new MelaniePrintAsyncTask().execute(printer, printerInfo, getPrintSettings(), context.getAssets(), barcode);
+        AsyncTask.execute(() -> {
+            HashMap<String, Object> printSettings = getPrintSettings();
+            printer.setPrinterInformation(printerInfo);
+            Map<String, Integer> lwStatus = printer.fetchPrinterStatus();
+            printSettings.put(LWPrintParameterKey.TapeWidth, printer.getTapeWidthFromStatus(lwStatus));
+            printer.doPrint(new BarcodeDataProvider(context.getAssets(), barcode, numberOfBarcodes), printSettings);
+        });
     }
 
-    public void printBarcode(String barcode, int quantity, Map<String, String> printerInfo) {
+    public void printBarcode(String barcode, int quantity) {
         if (isInitialized) {
             numberOfBarcodes = quantity;
 
-            if (printerInfo != null) {
-                this.printerInfo = printerInfo;
-            }
             if (printerDiscoverer.isBluetoothAvailable() && isPrinterFound) {
                 performPrint(barcode);
             } else {
@@ -97,14 +93,6 @@ public class BarcodePrintHelper {
                 printerDiscoverer.discoverBarcodePrinter();
             }
         }
-    }
-
-    public void PerformBarcodePrint() {
-        performPrint(barcode);
-    }
-
-    public void setIsPrinterFound(boolean isPrinterFound) {
-        this.isPrinterFound = isPrinterFound;
     }
 
     public void clearResources() {
@@ -128,7 +116,7 @@ public class BarcodePrintHelper {
 
         private final SparseIntArray phaseMessage;
 
-        public PrintCallBack() {
+        PrintCallBack() {
             phaseMessage = new SparseIntArray(3) {
                 {
                     put(LWPrintPrintingPhase.Prepare, R.string.printPreparing);
@@ -153,8 +141,6 @@ public class BarcodePrintHelper {
 
         @Override
         public void onChangePrintOperationPhase(LWPrint print, int phase) {
-            final int p = phase;
-
             if (phase == LWPrintPrintingPhase.Complete) {
 
             }
@@ -170,33 +156,5 @@ public class BarcodePrintHelper {
             // Do nothing for now
         }
 
-    }
-
-    private class MelaniePrintAsyncTask extends AsyncTask<Object, Void, Void> {
-
-        private static final int PRINTER = 0;
-        private static final int PRINTER_INFO = 1;
-        private static final int PRINT_SETTINGS = 2;
-        private static final int ASSET_MANAGER = 3;
-        private static final int BARCODE = 4;
-
-        @Override
-        @SuppressWarnings("unchecked")
-        protected Void doInBackground(Object... params) {
-            LWPrint printer = (LWPrint) params[PRINTER];
-
-            Map<String, String> printerInfo = (Map<String, String>) params[PRINTER_INFO];
-            HashMap<String, Object> printSettings = (HashMap<String, Object>) params[PRINT_SETTINGS];
-            printer.setPrinterInformation(printerInfo);
-
-            Map<String, Integer> lwStatus = printer.fetchPrinterStatus();
-            printSettings.put(LWPrintParameterKey.TapeWidth, printer.getTapeWidthFromStatus(lwStatus));
-
-            AssetManager assetManager = (AssetManager) params[ASSET_MANAGER];
-            String barcode = (String) params[BARCODE];
-
-            printer.doPrint(new MelanieBarcodeDataProvider(assetManager, barcode, numberOfBarcodes), printSettings);
-            return null;
-        }
     }
 }

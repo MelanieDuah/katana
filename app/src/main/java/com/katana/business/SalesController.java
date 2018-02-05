@@ -34,8 +34,8 @@ public interface SalesController {
                                OperationCallBack<Sale> operationCallBack)
             throws KatanaBusinessException;
 
-    OperationResult saveSales(List<Sale> sales, Customer customer, double amountReceived,
-                              double discount, double balance) throws KatanaBusinessException;
+    OperationResult saveSales(List<Sale> sales, String customerId, double amountReceived,
+                              double discount, double balance, OperationCallBack<Sale> operationCallBack) throws KatanaBusinessException;
 
 
     void clear();

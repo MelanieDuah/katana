@@ -97,7 +97,7 @@ public class ReceiptPrintingHelper {
         return message;
     }
 
-    //get this from the preferences *** well, maybe you might wanna store it in the cloud
+    //receive this from the preferences *** well, maybe you might wanna store it in the cloud
     private String getReceiptHeader() {
         return "Melanie Couture\nPig farm, Accra\nTel: +1 847 904 0065\n\n";
     }

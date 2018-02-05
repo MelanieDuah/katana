@@ -12,10 +12,13 @@ import com.katana.infrastructure.support.OperationCallBack;
 import com.katana.infrastructure.support.OperationResult;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
- * Created by Akwasi Owusu on 11/16/17.
+ * Created by Akwasi Owusu on 11/16/17
  */
 
 public class FirebaseDataAccess implements DataAccess {
@@ -35,15 +38,17 @@ public class FirebaseDataAccess implements DataAccess {
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        T savedDataItem = (T)dataSnapshot.getValue(dataItem.getClass());
-                        savedDataItem.setId(dataSnapshot.getKey());
-                        operationCallBack.onOperationSuccessful(savedDataItem);
-                        databaseReference.removeEventListener(this);
+                        T savedDataItem = (T) dataSnapshot.getValue(dataItem.getClass());
+                        if (savedDataItem != null)
+                            savedDataItem.setId(dataSnapshot.getKey());
+                        if (operationCallBack != null)
+                            operationCallBack.onOperationSuccessful(savedDataItem);
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        operationCallBack.onOperationFailed(new KatanaDataException("Database error", databaseError.toException()));
+                        if (operationCallBack != null)
+                            operationCallBack.onOperationFailed(new KatanaDataException("Database error", databaseError.toException()));
                         databaseReference.removeEventListener(this);
                     }
                 });
@@ -57,6 +62,27 @@ public class FirebaseDataAccess implements DataAccess {
     }
 
     @Override
+    public <T extends BaseEntity> OperationResult addDataItems(OperationCallBack<T> operationCallBack, T[] dataItems) throws KatanaDataException {
+        OperationResult operationResult = OperationResult.FAILED;
+        Map<String, Object> items = new HashMap<>();
+
+        for (T dataItem : dataItems) {
+            items.put(dataItem.getClass().getSimpleName() + '/' + dataItem.getId(), dataItem);
+        }
+
+        database.getReference().updateChildren(items, (databaseError, databaseReference) -> {
+            if (operationCallBack != null) {
+                if (databaseError != null)
+                    operationCallBack.onOperationFailed(databaseError.toException());
+                else
+                    operationCallBack.onCollectionOperationSuccessful(Arrays.asList(dataItems));
+            }
+        });
+
+        return operationResult;
+    }
+
+    @Override
     public <T extends BaseEntity> OperationResult findAllItems(Class<T> itemClass, OperationCallBack<T> operationCallBack) throws KatanaDataException {
         OperationResult result;
 
@@ -65,24 +91,42 @@ public class FirebaseDataAccess implements DataAccess {
             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    List<T> items = new ArrayList<>();
-                    Iterable<DataSnapshot> results = dataSnapshot.getChildren();
-
-                    for (DataSnapshot data : results) {
-                        T dataItem = data.getValue(itemClass);
-                        dataItem.setId(data.getKey());
-                        items.add(dataItem);
-                    }
-                    operationCallBack.onCollectionOperationSuccessful(items);
+                    handleMultipleItemSnapshot(dataSnapshot, itemClass, operationCallBack);
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    operationCallBack.onOperationFailed(new KatanaDataException("Database error", databaseError.toException()));
+                    if (operationCallBack != null)
+                        operationCallBack.onOperationFailed(new KatanaDataException("Database error", databaseError.toException()));
                 }
             });
             result = OperationResult.SUCCESSFUL;
-        }catch (Exception ex){
+        } catch (Exception ex) {
+            throw new KatanaDataException("Data operation error", ex);
+        }
+
+        return result;
+    }
+
+    @Override
+    public <T extends BaseEntity> OperationResult findAllItemsByField(Class<T> itemClass, String fieldName, String fieldValue, OperationCallBack<T> operationCallBack) throws KatanaDataException {
+        OperationResult result;
+        try {
+            DatabaseReference databaseReference = database.getReference(itemClass.getSimpleName());
+            databaseReference.orderByChild(fieldName).equalTo(fieldValue).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    handleMultipleItemSnapshot(dataSnapshot, itemClass, operationCallBack);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    if (operationCallBack != null)
+                        operationCallBack.onOperationFailed(new KatanaDataException("Database error", databaseError.toException()));
+                }
+            });
+            result = OperationResult.SUCCESSFUL;
+        } catch (Exception ex) {
             throw new KatanaDataException("Data operation error", ex);
         }
 
@@ -102,11 +146,12 @@ public class FirebaseDataAccess implements DataAccess {
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    operationCallBack.onOperationFailed(new KatanaDataException("Database error", databaseError.toException()));
+                    if (operationCallBack != null)
+                        operationCallBack.onOperationFailed(new KatanaDataException("Database error", databaseError.toException()));
                 }
             });
             result = OperationResult.SUCCESSFUL;
-        }catch (Exception ex){
+        } catch (Exception ex) {
             throw new KatanaDataException("Data operation error", ex);
         }
 
@@ -126,26 +171,129 @@ public class FirebaseDataAccess implements DataAccess {
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    operationCallBack.onOperationFailed(new KatanaDataException("Database error", databaseError.toException()));
+                    if (operationCallBack != null)
+                        operationCallBack.onOperationFailed(new KatanaDataException("Database error", databaseError.toException()));
                 }
             });
             result = OperationResult.SUCCESSFUL;
-        }catch (Exception ex){
+        } catch (Exception ex) {
             throw new KatanaDataException("Data operation error", ex);
         }
 
         return result;
     }
 
-    private <T> void handleSingleItemSnapshot(DataSnapshot dataSnapshot, OperationCallBack<T> operationCallBack, Class<T> itemClass){
+    private <T extends BaseEntity> void handleSingleItemSnapshot(DataSnapshot dataSnapshot, OperationCallBack<T> operationCallBack, Class<T> itemClass) {
         try {
             T dataItem = null;
-            if(dataSnapshot.hasChildren()) {
-                dataItem = dataSnapshot.getChildren().iterator().next().getValue(itemClass);
+            if (dataSnapshot.hasChildren()) {
+                DataSnapshot dataItemSnapshot = dataSnapshot.getChildren().iterator().next();
+                if (dataItemSnapshot.hasChildren()) {
+                    dataItem = dataItemSnapshot.getValue(itemClass);
+                    assert dataItem != null;
+                    dataItem.setId(dataItemSnapshot.getKey());
+                }
             }
-            operationCallBack.onOperationSuccessful(dataItem);
-        }catch (Exception e) {
-            operationCallBack.onOperationFailed(e);
+            if (operationCallBack != null)
+                operationCallBack.onOperationSuccessful(dataItem);
+        } catch (Exception e) {
+            if (operationCallBack != null)
+                operationCallBack.onOperationFailed(e);
         }
+    }
+
+    @Override
+    public <T extends BaseEntity> String createAndReturnNewIdFor(Class<T> itemClass, T dataItem) throws KatanaDataException {
+        return database.getReference(itemClass.getSimpleName()).push().getKey();
+    }
+
+    @Override
+    public <T extends BaseEntity> OperationResult findLastInsertedItemFor(Class<T> itemClass, OperationCallBack<T> operationCallBack) throws KatanaDataException {
+        OperationResult result;
+
+        try {
+            DatabaseReference databaseReference = database.getReference(itemClass.getSimpleName());
+            databaseReference.orderByKey().limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    handleSingleItemSnapshot(dataSnapshot, operationCallBack, itemClass);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    if (operationCallBack != null)
+                        operationCallBack.onOperationFailed(new KatanaDataException("Database error", databaseError.toException()));
+                }
+            });
+            result = OperationResult.SUCCESSFUL;
+        } catch (Exception ex) {
+            throw new KatanaDataException("Data operation error", ex);
+        }
+
+        return result;
+    }
+
+    @Override
+    public <T extends BaseEntity> OperationResult findItemsInRange(Class<T> itemClass, String startPoint, String endPoint, OperationCallBack<T> operationCallBack) throws KatanaDataException {
+        OperationResult result;
+        try {
+            DatabaseReference databaseReference = database.getReference(itemClass.getSimpleName());
+            databaseReference.orderByKey().startAt(startPoint).endAt(endPoint).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    handleMultipleItemSnapshot(dataSnapshot, itemClass, operationCallBack);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    if (operationCallBack != null)
+                        operationCallBack.onOperationFailed(new KatanaDataException("Database error", databaseError.toException()));
+                }
+            });
+            result = OperationResult.SUCCESSFUL;
+        } catch (Exception ex) {
+            throw new KatanaDataException("Data operation error", ex);
+        }
+        return result;
+    }
+
+    @Override
+    public <T extends BaseEntity> OperationResult findItemsInRangeOrderedByField(Class<T> itemClass, String fieldName, String startPoint, String endPoint, OperationCallBack<T> operationCallBack) throws KatanaDataException {
+        OperationResult result;
+        try {
+            DatabaseReference databaseReference = database.getReference(itemClass.getSimpleName());
+            databaseReference.orderByChild(fieldName).startAt(startPoint).endAt(endPoint).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    handleMultipleItemSnapshot(dataSnapshot, itemClass, operationCallBack);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    if (operationCallBack != null)
+                        operationCallBack.onOperationFailed(new KatanaDataException("Database error", databaseError.toException()));
+                }
+            });
+            result = OperationResult.SUCCESSFUL;
+        } catch (Exception ex) {
+            throw new KatanaDataException("Data operation error", ex);
+        }
+        return result;
+    }
+
+    private <T extends BaseEntity> void handleMultipleItemSnapshot(DataSnapshot dataSnapshot, Class<T> itemClass, OperationCallBack<T> operationCallBack) {
+        List<T> dataItems = new ArrayList<>();
+        Iterable<DataSnapshot> results = dataSnapshot.getChildren();
+        for (DataSnapshot data : results) {
+            T dataItem = null;
+            if (data.hasChildren()) {
+                dataItem = data.getValue(itemClass);
+                assert dataItem != null;
+                dataItem.setId(data.getKey());
+                dataItems.add(dataItem);
+            }
+        }
+        if (operationCallBack != null)
+            operationCallBack.onCollectionOperationSuccessful(dataItems);
     }
 }

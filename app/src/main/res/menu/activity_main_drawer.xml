@@ -20,6 +20,15 @@
             android:id="@+id/sale"
             android:icon="@drawable/ic_sale"
             android:title="@string/sell" />
+        <item
+            android:id="@+id/customers"
+            android:icon="@drawable/ic_shopper"
+            android:title="@string/customers"
+            />
+        <!--<item android:id="@+id/payments"-->
+        <!--android:title="@string/melanie_payment"-->
+        <!--android:icon="@drawable/ic_wallet"-->
+        <!--/>-->
     </group>
 
     <item android:title="@string/system">

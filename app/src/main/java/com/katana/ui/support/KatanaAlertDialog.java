@@ -54,7 +54,7 @@ public class KatanaAlertDialog extends AlertDialog.Builder {
      * @param buttonMethods
      */
     public KatanaAlertDialog(Context context, ButtonModes buttonsMode, ButtonMethods buttonMethods) {
-        super(context);
+        super(context, R.style.AlertDialogTheme);
         this.buttonsMode = buttonsMode;
         this.buttonMethods = buttonMethods;
         isOkCancel = buttonsMode.equals(ButtonModes.OK_CANCEL);

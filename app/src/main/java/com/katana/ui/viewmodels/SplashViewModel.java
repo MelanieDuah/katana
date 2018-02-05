@@ -1,7 +1,5 @@
 package com.katana.ui.viewmodels;
 
-import android.content.Context;
-
 import com.katana.business.UserController;
 import com.katana.infrastructure.KatanaFactory;
 
@@ -9,22 +7,21 @@ import static com.katana.ui.support.Constants.MAIN_ACTIVITY_REQUEST;
 import static com.katana.ui.support.Constants.SIGN_IN_REQUEST;
 
 /**
- * Created by AOwusu on 12/24/2017.
+ * Created by AOwusu on 12/24/2017
  */
 
 public class SplashViewModel extends BaseViewModel {
     private UserController userController;
 
-    public SplashViewModel(Context context) {
+    public SplashViewModel() {
         this.userController = KatanaFactory.getUserController();
     }
 
     @Override
-    public void initialize() {
-        super.initialize();
+    public void initialize(boolean isFromSavedInstance) {
         if(userController.getCurrentUser() == null)
-            getActivityAction().Invoke(SIGN_IN_REQUEST, null);
+            getViewActionRequest().Invoke(SIGN_IN_REQUEST, null);
         else
-            getActivityAction().Invoke(MAIN_ACTIVITY_REQUEST, null);
+            getViewActionRequest().Invoke(MAIN_ACTIVITY_REQUEST, null);
     }
 }

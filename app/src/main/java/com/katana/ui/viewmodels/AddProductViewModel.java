@@ -2,7 +2,9 @@ package com.katana.ui.viewmodels;
 
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.katana.business.ProductEntryController;
@@ -10,8 +12,8 @@ import com.katana.entities.Category;
 import com.katana.entities.Product;
 import com.katana.infrastructure.KatanaFactory;
 import com.katana.infrastructure.exceptions.KatanaBusinessException;
+import com.katana.infrastructure.support.Asserter;
 import com.katana.infrastructure.support.OperationCallBack;
-import com.katana.ui.support.BarcodePrintHelper;
 import com.katana.ui.support.Utils;
 
 import java.util.List;
@@ -20,9 +22,10 @@ import static com.katana.ui.support.Constants.BARCODE;
 import static com.katana.ui.support.Constants.EMPTY;
 import static com.katana.ui.support.Constants.PRINT_REQUEST;
 import static com.katana.ui.support.Constants.QUANTITY;
+import static com.katana.ui.support.Constants.REQUEST_OCR;
 
 /**
- * Created by AOwusu on 12/25/2017.
+ * Created by AOwusu on 12/25/2017
  */
 
 public class AddProductViewModel extends BaseViewModel {
@@ -32,9 +35,11 @@ public class AddProductViewModel extends BaseViewModel {
     private int selectedCategoryIndex;
     private ObservableArrayList<Category> categories;
     private ProductEntryController productController;
-    private BarcodePrintHelper barcodePrintHelper;
+    private boolean isResetting = false;
+    private Product lastInsertedProduct;
 
     public AddProductViewModel() {
+        super();
         categories = new ObservableArrayList<>();
         categories.add(new Category("Category"));
 
@@ -47,8 +52,10 @@ public class AddProductViewModel extends BaseViewModel {
     }
 
     public void setProductName(String productName) {
-        this.productName = productName;
-        notifyPropertyChanged(BR.productName);
+        if (!productName.equals(this.productName)) {
+            this.productName = productName;
+            notifyPropertyChanged(BR.productName);
+        }
     }
 
     @Bindable
@@ -58,7 +65,8 @@ public class AddProductViewModel extends BaseViewModel {
 
     public void setPrice(double price) {
         this.price = price;
-        notifyPropertyChanged(BR.price);
+        if (isResetting)
+            notifyPropertyChanged(BR.price);
     }
 
     @Bindable
@@ -68,7 +76,8 @@ public class AddProductViewModel extends BaseViewModel {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-        notifyPropertyChanged(BR.quantity);
+        if (isResetting)
+            notifyPropertyChanged(BR.quantity);
     }
 
     @Bindable
@@ -91,23 +100,38 @@ public class AddProductViewModel extends BaseViewModel {
     }
 
     @Override
-    public void initialize() {
-        super.initialize();
-        try {
-            productController.getAllCategories(new OperationCallBack<Category>() {
-                @Override
-                public void onCollectionOperationSuccessful(List<Category> results) {
-                    super.onCollectionOperationSuccessful(results);
-                    categories.addAll(results);
+    public void initialize(boolean isFromSavedInstance) {
+        if (!isFromSavedInstance) {
+            AsyncTask.execute(() -> {
+
+                try {
+                    productController.getAllCategories(new OperationCallBack<Category>() {
+                        @Override
+                        public void onCollectionOperationSuccessful(List<Category> results) {
+                            super.onCollectionOperationSuccessful(results);
+                            categories.addAll(results);
+                        }
+                    });
+
+                    productController.getLastInsertedProduct(new OperationCallBack<Product>() {
+
+                        @Override
+                        public void onOperationSuccessful(Product result) {
+                            lastInsertedProduct = result;
+                        }
+                    });
+                } catch (KatanaBusinessException e) {
+                    Log.e("AddProductViewModel", "Error retrieving product categories", e);
                 }
             });
-        } catch (KatanaBusinessException ex) {
         }
     }
 
     public void onAddProductRequested() {
         Category category = categories.get(selectedCategoryIndex);
-        int lastproductId = 1;
+
+        int lastproductId = getLastInsertedProductId();
+
         String currentBarcode = generateBarcodeString(lastproductId);
 
         try {
@@ -115,18 +139,34 @@ public class AddProductViewModel extends BaseViewModel {
                     currentBarcode, new OperationCallBack<Product>() {
                         @Override
                         public void onOperationSuccessful(Product result) {
+                            lastInsertedProduct = result;
+
                             printBarcode(currentBarcode);
                             clearFields();
                         }
                     });
         } catch (KatanaBusinessException e) {
+            Log.e("AddProductViewModel", "Could not add product", e);
         }
     }
 
-    private void clearFields(){
-      setProductName(EMPTY);
-      setPrice(0);
-      setQuantity(0);
+    private int getLastInsertedProductId() {
+        int lastproductId = 0;
+        if (lastInsertedProduct != null) {
+            String barcode = lastInsertedProduct.getBarcode();
+            Asserter.doAssert(!(barcode == null && barcode.equals("")), "barcode is null or empty");
+            lastproductId = Integer.parseInt(barcode.substring(barcode.length() - 1));
+        }
+
+        return lastproductId;
+    }
+
+    private void clearFields() {
+        isResetting = true;
+        setProductName(EMPTY);
+        setPrice(0);
+        setQuantity(0);
+        isResetting = false;
     }
 
     private String generateBarcodeString(int lastItemId) {
@@ -139,6 +179,10 @@ public class AddProductViewModel extends BaseViewModel {
         Bundle bundle = new Bundle();
         bundle.putString(BARCODE, barcode);
         bundle.putInt(QUANTITY, quantity);
-        getActivityAction().Invoke(PRINT_REQUEST, bundle);
+        getViewActionRequest().Invoke(PRINT_REQUEST, bundle);
+    }
+
+    public void requestOCR() {
+        getViewActionRequest().Invoke(REQUEST_OCR, null);
     }
 }

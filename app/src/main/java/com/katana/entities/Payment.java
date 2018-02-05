@@ -12,7 +12,7 @@ public class Payment extends BaseEntity {
 
     private static final long serialVersionUID = 2576415329209120071L;
 
-    private Date paymentDate;
+    private String paymentDate;
 
     private double amountReceived;
 
@@ -20,27 +20,28 @@ public class Payment extends BaseEntity {
 
     private double discount;
 
-    private Customer customer;
+    private String customerId;
+    private String ownerId;
 
     public Payment() {
         super();
     }
 
-    public Payment(Customer customer, double amountReceived, double discount,
+    public Payment(String customerId, double amountReceived, double discount,
                    double balance) {
         super();
-        this.customer = customer;
+        this.customerId = customerId;
         this.amountReceived = amountReceived;
         this.discount = discount;
         this.balance = balance;
-        paymentDate = new Date();
+        paymentDate = String.valueOf(new Date().getTime());
     }
 
-    public Date getPaymentDate() {
+    public String getPaymentDate() {
         return paymentDate;
     }
 
-    public void setPaymentDate(Date paymentDate) {
+    public void setPaymentDate(String paymentDate) {
         this.paymentDate = paymentDate;
     }
 
@@ -68,12 +69,20 @@ public class Payment extends BaseEntity {
         this.discount = discount;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public String getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
     }
 
     @Override

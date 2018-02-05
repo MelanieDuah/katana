@@ -15,8 +15,9 @@ public class FirebaseUserController implements UserController {
     private static final int RC_SIGN_IN = 123;
     private FirebaseAuth authenticator;
     private User user;
+    private static FirebaseUserController instance = new FirebaseUserController();
 
-    public FirebaseUserController() {
+    private FirebaseUserController() {
         authenticator = FirebaseAuth.getInstance();
     }
 
@@ -29,8 +30,14 @@ public class FirebaseUserController implements UserController {
                 user = new User();
                 user.setEmail(firebaseUser.getEmail());
                 user.setName(firebaseUser.getDisplayName());
+                user.setId(firebaseUser.getUid());
             }
         }
         return user;
     }
+
+    public static FirebaseUserController getInstance() {
+        return instance;
+    }
+
 }

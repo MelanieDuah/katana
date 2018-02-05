@@ -1,5 +1,6 @@
 package com.katana.entities;
-import java.util.Date;
+
+import com.google.firebase.database.Exclude;
 
 /**
  * The Sale entity
@@ -10,28 +11,30 @@ public class Sale extends BaseEntity {
 
     private static final long serialVersionUID = -8612909833588822894L;
 
-    private Date saleDate;
+    private String saleDate;
 
     private Product product;
 
     private int quantitySold;
 
-    private Customer customer;
+    private String customerId;
 
     private boolean paidFor = false;
+    private String ownerId;
 
     public Sale() {
         super();
     }
 
-    public Date getSaleDate() {
+    public String getSaleDate() {
         return saleDate;
     }
 
-    public void setSaleDate(Date saleDate) {
+    public void setSaleDate(String saleDate) {
         this.saleDate = saleDate;
     }
 
+    @Exclude
     public Product getProduct() {
         return product;
     }
@@ -48,20 +51,36 @@ public class Sale extends BaseEntity {
         this.quantitySold = quantitySold;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
     public boolean isPaidFor() {
         return paidFor;
     }
 
     public void setPaidFor(boolean paidFor) {
         this.paidFor = paidFor;
+    }
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public String getProductId() {
+        String productId = null;
+        if (product != null)
+            productId = product.getId();
+
+        return productId;
     }
 
     @Override

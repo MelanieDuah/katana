@@ -1,7 +1,6 @@
 package com.katana.ui.support;
 
 import android.databinding.ObservableList;
-import android.widget.ArrayAdapter;
 
 /**
  * Created by Akwasi Owusu on 1/10/18.
@@ -9,35 +8,39 @@ import android.widget.ArrayAdapter;
 
 public class RefreshListChangeListener extends ObservableList.OnListChangedCallback {
 
-    private ArrayAdapter arrayAdapter;
+    private DataSetChangeNotificationReceiver datasetNotificationReceiver;
 
-    public RefreshListChangeListener(ArrayAdapter arrayAdapter) {
+    public RefreshListChangeListener(DataSetChangeNotificationReceiver datasetNotificationReceiver) {
         super();
-        this.arrayAdapter = arrayAdapter;
+        this.datasetNotificationReceiver = datasetNotificationReceiver;
     }
 
     @Override
     public void onChanged(ObservableList observableList) {
-        arrayAdapter.notifyDataSetChanged();
+        datasetNotificationReceiver.notifyDataSetChanged();
     }
 
     @Override
     public void onItemRangeChanged(ObservableList observableList, int i, int i1) {
-        arrayAdapter.notifyDataSetChanged();
+        datasetNotificationReceiver.notifyDataSetChanged();
     }
 
     @Override
     public void onItemRangeInserted(ObservableList observableList, int i, int i1) {
-        arrayAdapter.notifyDataSetChanged();
+        datasetNotificationReceiver.notifyDataSetChanged();
     }
 
     @Override
     public void onItemRangeMoved(ObservableList observableList, int i, int i1, int i2) {
-        arrayAdapter.notifyDataSetChanged();
+        datasetNotificationReceiver.notifyDataSetChanged();
     }
 
     @Override
     public void onItemRangeRemoved(ObservableList observableList, int i, int i1) {
-        arrayAdapter.notifyDataSetChanged();
+        datasetNotificationReceiver.notifyDataSetChanged();
+    }
+
+    public interface DataSetChangeNotificationReceiver {
+        void notifyDataSetChanged();
     }
 }

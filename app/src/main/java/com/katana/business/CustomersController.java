@@ -5,8 +5,6 @@ import com.katana.infrastructure.exceptions.KatanaBusinessException;
 import com.katana.infrastructure.support.OperationCallBack;
 import com.katana.infrastructure.support.OperationResult;
 
-import java.util.List;
-
 /**
  * Provides methods for recording and retrieval of customer information
  *
@@ -15,22 +13,17 @@ import java.util.List;
 
 public interface CustomersController {
 
-    List<Customer> getAllCustomers(
+    OperationResult getAllCustomers(
             OperationCallBack<Customer> operationCallBack)
             throws KatanaBusinessException;
 
-    OperationResult updateCustomer(Customer customer)
+    OperationResult updateCustomer(Customer customer, OperationCallBack<Customer> operationCallBack)
             throws KatanaBusinessException;
 
-    OperationResult addCustomer(Customer customer)
+    OperationResult addCustomer(String name, String phone, OperationCallBack<Customer> operationCallBack)
             throws KatanaBusinessException;
 
-    Customer findCustomer(int customerId,
-                          OperationCallBack<Customer> operationCallBack)
+    OperationResult findCustomer(int customerId,
+                                 OperationCallBack<Customer> operationCallBack)
             throws KatanaBusinessException;
-
-    void addOrUpdateCustomerLocalOnly(Customer customer)
-            throws KatanaBusinessException;
-
-    void getLastInsertedCustomerId(OperationCallBack<Integer> operationCallBack) throws KatanaBusinessException;
 }

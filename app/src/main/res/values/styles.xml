@@ -1,16 +1,21 @@
 <resources>
 
-    <style name="BarcodeScannerDialog" parent="Theme.AppCompat.Dialog">
+    <style name="ScannerDialog" parent="Theme.AppCompat.Dialog">
         <item name="windowNoTitle">true</item>
     </style>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColorHint">@color/colorPrimary</item>
-        <item name="android:textColor">@color/colorPrimary</item>
-    </style>
-    <!--<style name="LaunchScreenTheme" parent="android:Theme.Material.Light.NoActionBar">-->
+        <item name="android:textColor">@color/katanaTextColor</item>
+        <item name="colorAccent">@color/colorPrimaryDark</item>
 
-    <!--</style>-->
+    </style>
+
+    <style name="AlertDialogTheme" parent="Theme.AppCompat.Dialog">
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="android:textColorPrimary">@color/katanaTextColor</item>
+    </style>
+    >
     <style name="LaunchScreenTheme" parent="AppTheme">
         <item name="android:background">@drawable/primary_background</item>
         <item name="android:label">@string/app_name</item>

@@ -1,0 +1,89 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.katana.ui.viewmodels.InventoryViewModel"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.katana.ui.views.fragments.InventoryFragment">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/top_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardUseCompatPadding="true">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/startDate"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_date"
+                    android:text="@{viewmodel.startDate}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/endDate"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+                <Button
+                    android:id="@+id/endDate"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_date"
+                    android:text="@{viewmodel.endDate}"
+                    app:layout_constraintLeft_toRightOf="@id/startDate"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+                <Spinner
+                    android:id="@+id/categoriesSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:selectedItemPosition="@={viewmodel.selectedCategoryIndex}"
+                    app:layout_constraintTop_toBottomOf="@id/endDate"
+                    app:spinneritems="@{viewmodel.categories}"
+                    android:onItemSelected="@{() -> viewmodel.onCategorySelected()}"
+                    android:spinnerMode="dropdown"
+                    android:dropDownVerticalOffset="50dp"
+                    android:dropDownWidth="match_parent"
+                    />
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/bottom_card"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:cardUseCompatPadding="true">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/products"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:inventoryitems="@{viewmodel.inventoryItems}"
+                />
+
+            <include
+                android:id="@+id/emptylistview"
+                layout="@layout/layout_list_empty_view"
+                android:visibility="gone"
+                app:viewmodel="@{viewmodel}"
+                />
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+</layout>

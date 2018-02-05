@@ -60,17 +60,17 @@
     <string name="lastScan">last scan:</string>
     <string name="zeros">0000000000000</string>
     <string name="name">Name</string>
-    <string name="qty">Qty</string>
+    <string name="qty">Qty: </string>
     <string name="each">Each</string>
-    <string name="total">Total</string>
+    <string name="total">Total: </string>
     <string name="totalWithColon">Total:</string>
+    <string name="alreadyPaid">Already paid:</string>
     <string name="discountLabel">Discount:</string>
     <string name="amountReceived">Amount received:</string>
     <string name="balance">Balance due:</string>
     <string name="save">Save</string>
     <string name="scanBarcode">scan</string>
     <string name="salesSuccess">Sales successfully recorded!</string>
-    <string name="phoneNumber">Phone number:</string>
     <string name="salesFailed">Sorry, could not save saleItems. Please try again</string>
     <string name="phoneHint">+1 111 111 1111</string>
     <string name="customerNameHint">Countee Cullen</string>
@@ -101,11 +101,11 @@
     <string name="customersdescription">Add new or modify existing customer</string>
     <string name="customerlistdescription">View customers&#8217; details</string>
     <string name="paymentdescription">Record payment for customer</string>
-    <string name="startDate">Start date:</string>
-    <string name="endDate">End date:</string>
-    <string name="pickDate">Pick a date</string>
-    <string name="startDateError">The start date must be a date equal to or before the end date</string>
-    <string name="endDateError">The end date must be a date equal to or after the start date</string>
+    <string name="startDate">Start inventoryDate:</string>
+    <string name="endDate">End inventoryDate:</string>
+    <string name="pickDate">Pick a inventoryDate</string>
+    <string name="startDateError">The start inventoryDate must be a inventoryDate equal to or before the end inventoryDate</string>
+    <string name="endDateError">The end inventoryDate must be a inventoryDate equal to or after the start inventoryDate</string>
     <string name="title_activity_view_sales">View saleItems</string>
     <string name="title_activity_monthly_sales_report">Monthly saleItems report</string>
     <string name="title_activity_select_printer">Select printer</string>
@@ -180,4 +180,9 @@
     <string name="price">price</string>
     <string name="system">System</string>
     <string name="emptyBagMessage">Shopping bag is empty. Press scan to add items</string>
+    <string name="noItems">There are no items</string>
+    <string name="unitsremaining">units remaining</string>
+    <string name="nocustomers">You have no customers. Click plus to add a customer</string>
+    <string name="due">Due:</string>
+    <string name="search">find customer</string>
 </resources>

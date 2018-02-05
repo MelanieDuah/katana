@@ -1,0 +1,217 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.katana.ui.viewmodels.PaymentsViewModel"/>
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.katana.ui.views.fragments.PaymentsFragment">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/itemsCard"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintBottom_toTopOf="@id/amountsCard"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread_inside"
+            app:layout_constraintVertical_weight="2.5">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Spinner
+                    android:id="@+id/saleDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/salesListView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:salesitems="@{viewmodel.saleItems}"
+                    app:layout_constraintTop_toBottomOf="@id/saleDate"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <include
+                    android:id="@+id/emptylistview"
+                    layout="@layout/layout_list_empty_view"
+                    android:visibility="gone"
+                    app:viewmodel="@{viewmodel}"
+                    />
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/amountsCard"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/itemsCard"
+            app:layout_constraintVertical_weight="1.5">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                    <TextView
+                        android:id="@+id/totalLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/total"
+                        android:theme="@style/LabelDarkSingleStateBold"
+                        app:layout_constraintBaseline_toBaselineOf="@id/totalValue"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toLeftOf="@id/totalValue"/>
+
+                    <TextView
+                        android:id="@+id/totalValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:theme="@style/LabelDarkSingleStateBold"
+                        app:doubleText="@{viewmodel.total}"
+                        app:layout_constraintBottom_toTopOf="@id/discountValue"
+                        app:layout_constraintLeft_toRightOf="@+id/totalLabel"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_chainStyle="spread_inside"
+                        />
+
+                    <TextView
+                        android:id="@+id/discountLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/discountLabel"
+                        android:theme="@style/LabelDarkSingleState"
+                        app:layout_constraintBaseline_toBaselineOf="@id/discountValue"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toLeftOf="@id/discountValue"/>
+
+                    <TextView
+                        android:id="@+id/discountValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:hint="@string/amountZeroes"
+                        android:paddingLeft="0dp"
+                        android:paddingRight="0dp"
+                        android:textAlignment="gravity"
+                        android:theme="@style/LabelDarkSingleState"
+                        app:doubleText="@{viewmodel.discount}"
+                        app:layout_constraintBottom_toTopOf="@id/alreadyPaidValue"
+                        app:layout_constraintLeft_toRightOf="@+id/discountLabel"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/totalValue"/>
+
+                    <TextView
+                        android:id="@+id/alreadyPaidLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/alreadyPaid"
+                        android:theme="@style/LabelDarkSingleStateBold"
+                        app:layout_constraintBaseline_toBaselineOf="@id/alreadyPaidValue"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toLeftOf="@id/alreadyPaidValue"/>
+
+                    <TextView
+                        android:id="@+id/alreadyPaidValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:hint="@string/amountZeroes"
+                        android:paddingLeft="0dp"
+                        android:paddingRight="0dp"
+                        android:textAlignment="gravity"
+                        android:theme="@style/LabelDarkSingleStateBold"
+                        app:doubleText="@{viewmodel.discount}"
+                        app:layout_constraintBottom_toTopOf="@id/amountReceivedValue"
+                        app:layout_constraintLeft_toRightOf="@+id/alreadyPaidLabel"
+
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/discountValue"/>
+
+                    <TextView
+                        android:id="@+id/amountReceivedLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/amountReceived"
+                        android:theme="@style/LabelDarkSingleStateBold"
+                        app:layout_constraintBaseline_toBaselineOf="@id/amountReceivedValue"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toLeftOf="@id/amountReceivedValue"/>
+
+                    <EditText
+                        android:id="@+id/amountReceivedValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:hint="@string/amountZeroes"
+                        android:inputType="numberDecimal"
+                        android:paddingLeft="0dp"
+                        android:paddingRight="0dp"
+                        android:textAlignment="gravity"
+                        android:theme="@style/LabelDarkThemeBold"
+                        app:doubleText="@={viewmodel.amountReceived}"
+                        app:layout_constraintBottom_toTopOf="@id/balanceDueValue"
+                        app:layout_constraintLeft_toRightOf="@id/amountReceivedLabel"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/alreadyPaidValue"/>
+
+                    <TextView
+                        android:id="@+id/balanceDueLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/balance"
+                        android:theme="@style/LabelDarkSingleStateBold"
+                        app:layout_constraintBaseline_toBaselineOf="@id/balanceDueValue"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toLeftOf="@id/balanceDueValue"/>
+
+                    <TextView
+                        android:id="@+id/balanceDueValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:theme="@style/LabelDarkSingleStateBold"
+                        app:doubleText="@{viewmodel.balance}"
+                        app:layout_constraintBottom_toTopOf="@id/saveSaleButton"
+                        app:layout_constraintLeft_toRightOf="@id/balanceDueLabel"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/amountReceivedValue"/>
+
+                    <Button
+                        android:id="@+id/saveSaleButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{() -> viewmodel.requestSaveSale()}"
+                        android:text="@string/save"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/balanceDueValue"
+                        />
+                </android.support.constraint.ConstraintLayout>
+            </ScrollView>
+        </android.support.v7.widget.CardView>
+    </android.support.constraint.ConstraintLayout>
+</layout>

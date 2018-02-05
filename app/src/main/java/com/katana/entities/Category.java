@@ -1,5 +1,7 @@
 package com.katana.entities;
 
+import java.util.Date;
+
 /**
  * The Category entity
  *
@@ -10,6 +12,7 @@ public class Category extends BaseEntity {
 
     private static final long serialVersionUID = -3981110032326693701L;
     private String categoryName;
+    public Date lastModified;
 
     public Category() {
         super();
@@ -26,6 +29,14 @@ public class Category extends BaseEntity {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    public Date getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
     }
 
     @Override

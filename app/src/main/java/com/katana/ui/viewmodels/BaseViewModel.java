@@ -1,24 +1,52 @@
 package com.katana.ui.viewmodels;
 
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 
+import com.katana.ui.BR;
+import com.katana.ui.R;
 import com.katana.ui.support.KatanaAction;
 
-public abstract class BaseViewModel extends BaseObservable {
-  private KatanaAction activityAction;
+import java.io.Serializable;
+
+public abstract class BaseViewModel extends BaseObservable implements Serializable {
+    private KatanaAction viewActionRequest;
+    private boolean loadingData;
 
     public BaseViewModel() {
+        super();
     }
 
-    public KatanaAction getActivityAction() {
-        return activityAction;
+    KatanaAction getViewActionRequest() {
+        return viewActionRequest;
     }
 
-    public void setActivityAction(KatanaAction activityAction) {
-        this.activityAction = activityAction;
+    public void setViewActionRequest(KatanaAction viewActionRequest) {
+        this.viewActionRequest = viewActionRequest;
     }
 
-    protected void getContext(){}
-    public void initialize(){}
-    public <T> void receiveDataFromView(String key, T data){}
+    public void initialize(boolean isFromSavedInstance) {
+    }
+
+    @Bindable
+    public boolean isLoadingData() {
+        return loadingData;
+    }
+
+    @Bindable
+    public int getEmptyImageId() {
+        return R.drawable.ic_price_tag;
+    }
+
+    void setLoadingData(boolean loadingData) {
+        this.loadingData = loadingData;
+        notifyPropertyChanged(BR.loadingData);
+    }
+
+    public int getEmptyString() {
+        return R.string.noItems;
+    }
+
+    public <T> void receiveDataFromView(String key, T data) {
+    }
 }

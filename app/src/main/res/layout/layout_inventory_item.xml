@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="java.lang.String"/>
+
+        <variable
+            name="viewmodel"
+            type="com.katana.ui.viewmodels.InventoryItemViewModel"/>
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="125dp">
+
+        <TextView
+            android:id="@+id/product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewmodel.productName}"
+            android:theme="@style/LabelDarkSingleStateBold"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/inventory_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewmodel.inventoryDate}"
+            android:theme="@style/LabelLessDarkSingleState"
+            app:layout_constraintTop_toBottomOf="@id/product_name"
+            />
+
+        <TextView
+            android:id="@+id/quantyLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/qty"
+            app:layout_constraintBaseline_toBaselineOf="@id/quantity"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginRight="3dp"/>
+
+        <TextView
+            android:id="@+id/quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:theme="@style/LabelDarkSingleState"
+            app:layout_constraintTop_toBottomOf="@id/inventory_date"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/quantyLabel"
+            app:layout_constraintVertical_bias="1"
+            app:intText="@{viewmodel.originalQuantity}"/>
+
+        <TextView
+            android:id="@+id/units_remaining"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{String.valueOf(viewmodel.currentQuantity) + ' ' + @string/unitsremaining}"
+            android:theme="@style/LabelDarkSingleState"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <TextView
+            android:id="@+id/priceLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Price"
+            app:layout_constraintRight_toLeftOf="@id/priceValue"
+            app:layout_constraintBaseline_toBaselineOf="@id/priceValue"
+            android:layout_marginRight="3dp"
+            />
+
+        <TextView
+            android:id="@+id/priceValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/units_remaining"
+            app:layout_constraintVertical_bias="0.3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:doubleText="@{viewmodel.price}"
+            />
+
+        <TextView
+            android:id="@+id/totalLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/totalWithColon"
+            android:theme="@style/LabelDarkSingleStateBold"
+            app:layout_constraintRight_toLeftOf="@id/totalValue"
+            app:layout_constraintBaseline_toBaselineOf="@id/totalValue"
+            android:layout_marginRight="3dp"/>
+
+        <TextView
+            android:id="@+id/totalValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:theme="@style/LabelDarkSingleStateBold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:doubleText="@{viewmodel.total}"/>
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

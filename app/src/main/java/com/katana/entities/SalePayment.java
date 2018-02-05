@@ -4,37 +4,32 @@ public class SalePayment extends BaseEntity {
 
     private static final long serialVersionUID = -2532537384332475209L;
 
-    private static final String SALE_ID = "SaleId";
-    private static final String PAYMENT_ID = "PaymentId";
+    private String saleId;
 
-    private Sale sale;
-
-    private Payment payment;
+    private String paymentId;
 
     public SalePayment() {
         super();
     }
 
-    public SalePayment(Sale sale, Payment payment) {
-        super();
-        this.sale = sale;
-        this.payment = payment;
+    public SalePayment(String saleId, String paymentId) {
+        this.saleId = saleId;
+        this.paymentId = paymentId;
     }
 
-    public Sale getSale() {
-        return sale;
+    public String getSaleId() {
+        return saleId;
     }
 
-    public void setSale(Sale sale) {
-        this.sale = sale;
+    public void setSaleId(String saleId) {
+        this.saleId = saleId;
     }
 
-    public Payment getPayment() {
-        return payment;
+    public String getPaymentId() {
+        return paymentId;
     }
 
-    public void setPayment(Payment payment) {
-        this.payment = payment;
+    public void setPaymentId(String paymentId) {
+        this.paymentId = paymentId;
     }
-
 }

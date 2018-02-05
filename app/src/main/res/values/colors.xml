@@ -11,4 +11,9 @@
     <color name="scannerGreen">#0f0</color>
     <color name="katanaCardBackground">#ece9e9</color>
     <color name="katanaFadedDark">#cfd8dc</color>
+    <color name="translucent">#faffffff</color>
+    <color name="selectionHighlightColor">#bdbdbd</color>
+    <color name="selectionBlue">#448aff</color>
+    <color name="selectionOrange">#f57c00</color>
+    <color name="selectionGreen">#43a047</color>
 </resources>

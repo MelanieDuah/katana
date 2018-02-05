@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.katana.ui.viewmodels.BaseListItemViewModel"/>
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/leftButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@{viewmodel.leftSwipeBackground}"
+            android:drawableLeft="@{viewmodel.leftSwipeIcon}"
+            android:text="@{viewmodel.leftSwipeLabel}"
+            android:textColor="@android:color/white"
+            android:textAlignment="viewStart"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/rightButton"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:onClick="@{viewmodel.swipeLeftAction}"
+            />
+
+        <Button
+            android:id="@+id/rightButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@{viewmodel.rightSwipeBackground}"
+            android:drawableRight="@{viewmodel.rightSwipeIcon}"
+            android:text="@{viewmodel.rightSwipeLabel}"
+            android:textColor="@android:color/white"
+            android:textAlignment="viewEnd"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/leftButton"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:onClick="@{viewmodel.swipeRightAction}"
+            android:clickable="true"
+            />
+    </android.support.constraint.ConstraintLayout>
+</layout>
